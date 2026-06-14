@@ -240,6 +240,19 @@ window.restartGame = () => {
     up();
 };
 })();
+        // === ЗАЩИТА ОТ ПРОСМОТРА КОДА ИГРЫ ===
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        document.addEventListener('keydown', function(e) {
+            if(e.key === 'F12' || 
+               (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) ||
+               (e.ctrlKey && e.key === 'u')) {
+                e.preventDefault();
+                return false;
+            }
+        });
 <\/script>`;
 
         document.getElementById('preview-frame').srcdoc = finalCode;
