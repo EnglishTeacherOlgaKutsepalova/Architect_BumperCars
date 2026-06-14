@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Конструктор игры "Квиз: Поймай предметы", автор Ольга Куцепалова</title>
+    <style>
+        :root { --primary: #00d2ff; --bg: #1a202c; --accent: #00b894; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .builder-container { width: 1100px; display: grid; grid-template-columns: 400px 1fr; gap: 20px; }
+        .config-panel { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); height: fit-content; border: 1px solid #e0e6ed; }
+        h2 { color: var(--primary); margin: 0 0 20px 0; font-size: 22px; display: flex; align-items: center; gap: 10px; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 14px; color: #4a5568; }
+        input, select, textarea { width: 100%; padding: 12px; border: 2px solid #edf2f7; border-radius: 12px; box-sizing: border-box; transition: 0.2s; }
+        input:focus, textarea:focus { border-color: var(--primary); outline: none; background: #fcfaff; }
+        .loc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px solid #edf2f7; }
+        .loc-item { display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; }
+        .btn-main { background: var(--primary); color: white; border: none; padding: 16px; border-radius: 12px; cursor: pointer; font-weight: bold; width: 100%; font-size: 16px; margin-top: 15px; }
+        .btn-copy { background: #00b894; margin-top: 10px; }
+        #genially-code { background: #1a202c; color: #a3b1cc; padding: 15px; border-radius: 12px; font-family: monospace; font-size: 11px; height: 100px; overflow: auto; word-break: break-all; margin-top: 15px; border: 1px solid #000; }
+        #preview-frame { width: 100%; height: 700px; border: 1px solid #ddd; border-radius: 20px; background: #fff; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+
+<div class="builder-container">
+    <div class="config-panel">
+        <h2>🛠️ Конструктор игры "Квиз: Поймай предметы", автор Ольга Куцепалова</h2>
+        
+        <div class="input-group">
+            <label>1. Локации (1-4):</label>
+            <div class="loc-grid" id="loc-select">
+                <label class="loc-item"><input type="checkbox" value="ocean" checked> Котик 🐱</label>
+                <label class="loc-item"><input type="checkbox" value="garden" checked> Арктика ❄️</label>
+                <label class="loc-item"><input type="checkbox" value="desert" checked> Город ♻️</label>
+                <label class="loc-item"><input type="checkbox" value="space" checked> Машинки 🚗</label>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>2. Язык & Счёт:</label>
+            <div style="display:flex; gap:10px;">
+                <select id="lang"><option value="RU">RU</option><option value="EN">EN</option><option value="DE">DE</option><option value="FR">FR</option></select>
+                <input type="number" id="win-score" value="500" step="50">
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>3. Задания ( ? | + | - | - | - ):</label>
+            <textarea id="q-input" rows="6">Какое животное чаще всего считается строгим хищником и нуждается в мясе для полноценного питания? | Кошка | Корова | Лошадь | Кролик
+Почему кошки почти не чувствуют сладкий вкус? | У них отсутствует работающий ген сладкого вкуса | Они не любят сахар | У них слишком мало зубов | Их язык слишком короткий
+Какое животное питается в основном листьями эвкалипта? | Коала | Лиса | Белка | Выдра
+Какое животное может съедать за день количество бамбука, сравнимое с четвертью своей массы? | Большая панда | Волк | Орёл | Тигр
+Для чего корове нужен сложный желудок из нескольких отделов? | Для переваривания травы | Для хранения воды | Для защиты от холода | Для улучшения слуха
+Какое животное использует длинный язык для добычи муравьёв и термитов? | Муравьед | Кабан | Рысь | Сурок
+Почему фламинго имеют розовый цвет перьев? | Из-за веществ, содержащихся в их пище | Из-за солнечного света | Из-за солёной воды | Из-за особенностей сна
+Какое морское животное любит лакомиться морскими ежами и моллюсками? | Морская выдра | Дельфин | Китовая акула | Морской конёк
+Как называется животное, которое питается и растительной, и животной пищей? | Всеядное | Травоядное | Хищное | Насекомоядное
+Какое животное может различать вкус воды и предпочитать более чистые источники? | Слон | Пингвин | Крот | Ленивец
+Как называется северная область Земли вокруг Северного полюса? | Арктика | Антарктида | Сахара | Амазония
+Какой океан находится в центре Арктики? | Северный Ледовитый океан | Атлантический океан | Индийский океан | Южный океан
+Что помогало первым полярным исследователям определять направление? | Компас | Телефон | Фотоаппарат | Телевизор
+Как называют корабль, способный проходить через толстый лёд? | Ледокол | Фрегат | Катамаран | Паром
+Какой знаменитый мореплаватель первым достиг Северного полюса на дирижабле в составе экспедиции? | Руаль Амундсен | Христофор Колумб | Джеймс Кук | Фернан Магеллан
+Зачем в Арктике строят научные станции? | Для исследований природы и климата | Для выращивания тропических фруктов | Для проведения спортивных соревнований | Для добычи золота вручную
+Какое природное явление часто наблюдают в полярных широтах? | Северное сияние | Муссон | Торнадо | Извержение вулкана
+Почему арктический лёд важен для всей планеты? | Он влияет на климат Земли | Он делает океан солёным | Он создаёт горы | Он увеличивает количество лесов
+Какое животное считается символом Арктики? | Белый медведь | Жираф | Кенгуру | Зебра
+Что сегодня является одной из главных задач исследователей Арктики? | Изучение изменений климата | Поиск динозавров | Выращивание пальм | Строительство пирамид
+Как называется наука, изучающая отношения живых существ с окружающей средой? | Экология | Астрономия | Геометрия | Археология
+Что из перечисленного можно отправить на переработку? | Бумагу | Батарейки в обычный мусор | Остатки супа | Землю из цветочного горшка
+Какое действие помогает экономить электроэнергию дома? | Выключать свет в пустой комнате | Открывать все окна зимой | Оставлять телевизор включённым | Использовать больше лампочек
+Почему пластиковый мусор опасен для природы? | Он очень долго разлагается | Он превращается в воду за сутки | Он улучшает качество почвы | Он помогает расти деревьям
+Что означает символ из трёх стрелок в виде треугольника? | Переработка отходов | Опасность пожара | Высокое напряжение | Подземный переход
+Какой транспорт считается более экологичным для коротких поездок? | Велосипед | Самолёт | Грузовик | Вертолёт
+Зачем сажают деревья в городах? | Они очищают воздух и создают тень | Они делают улицы шумнее | Они увеличивают количество асфальта | Они заменяют здания
+Что следует делать с использованными батарейками? | Сдавать в специальные пункты сбора | Бросать в реку | Закапывать в лесу | Сжигать дома
+Как называется использование вещей повторно вместо выбрасывания? | Повторное использование | Загрязнение | Добыча ресурсов | Урбанизация
+Какой вклад в защиту природы может внести каждый человек? | Сокращать количество отходов и бережно использовать ресурсы | Выбрасывать мусор где удобно | Тратить больше воды без необходимости | Ломать молодые деревья
+Какой вид транспорта считается первым массовым автомобилем, выпускавшимся на конвейере? | Ford Model T | Rolls-Royce Phantom | Bugatti Veyron | Porsche 911
+Кто создал один из первых автомобилей с бензиновым двигателем в 1880-х годах? | Карл Бенц | Томас Эдисон | Исаак Ньютон | Галилео Галилей
+Как назывался двигатель, который позволил автомобилям стать быстрее и удобнее лошадей? | Двигатель внутреннего сгорания | Паровая турбина | Реактивный двигатель | Электромагнитный двигатель
+Какой автомобильный бренд получил название в честь своего основателя Генри Форда? | Ford | Ferrari | Volvo | Peugeot
+Для чего впервые использовали конвейер на автомобильном заводе? | Чтобы быстрее собирать машины | Чтобы красить автомобили | Чтобы мыть детали | Чтобы перевозить пассажиров
+Какая страна считается родиной первых автомобилей с бензиновым двигателем? | Германия | Япония | Бразилия | Австралия
+Как назывался автомобиль, который первым преодолел скорость 100 км/ч ещё в XIX веке? | Электромобиль La Jamais Contente | Ford Model T | Volkswagen Beetle | Mini Cooper
+Что обычно обозначает эмблема в центре рулевого колеса? | Марку автомобиля | Цвет кузова | Год выпуска | Объём багажника
+Какой тип автомобилей становится всё популярнее благодаря отсутствию выхлопных газов? | Электромобили | Паровозы | Дирижабли | Троллейбусы без проводов
+Какая технология помогает современным автомобилям автоматически предупреждать водителя об опасности? | Электронные системы помощи водителю | Механический спидометр | Ручной стартер | Карбюратор</textarea>
+        </div>
+
+        <button class="btn-main" onclick="generate()">🔄 Обновите предпросмотр</button>
+        
+        <div id="genially-code">Нажмите, чтобы сгенерировать код...</div>
+        <button class="btn-main btn-copy" onclick="copy()">📋 Скопируйте код</button>
+    </div>
+
+    <iframe id="preview-frame"></iframe>
+</div>
+
+<script>
+    const ASSETS = {
+        ocean: { n:{RU:'Котик',EN:'Cat',DE: 'Katze',FR: 'Chat'}, p:'🐱', plus:'🐟', minus:'🌶️', life:'💙', bg:'https://img.genially.com/656427f3b4e82f0019d59fb5/867182a0-6455-4baa-ba18-637f93c92003.png' },
+        garden: { n:{RU:'Арктика',EN:'Arctic',DE: 'Arktis',FR: 'Arctique'}, p:'❄️', plus:'🔋', minus:'🦠️', life:'💛', bg:'https://img.genially.com/656427f3b4e82f0019d59fb5/b2039953-eb1a-409c-973b-e5067a117cff.png' },
+        desert: { n:{RU:'Город',EN:'Town',DE: 'Stadt',FR: 'Ville'}, p:'♻️', plus:'🌳', minus:'🚬', life:'🧡', bg:'https://img.genially.com/656427f3b4e82f0019d59fb5/72ee6fa2-f763-4694-b76c-9d89c563da1c.png' },
+        space: { n:{RU:'Машинки',EN:'Cars',DE: 'Autos',FR: 'Voitures'}, p:'🚗', plus:'🍬', minus:'💥️', life:'💜', bg:'https://img.genially.com/656427f3b4e82f0019d59fb5/272974fd-35cc-4a9b-9c67-cfc730b3aa6d.png' }
+    };
+
+    const UI = {
+        RU: { win: "ПОБЕДА!", start: "Начать", sel: "Выберите локацию", over: "Конец игры" },
+        EN: { win: "VICTORY!", start: "Start", sel: "Choose Location", over: "Game Over" },
+		DE: { win: "SIEG!", start: "Start", sel: "Ort wählen", over: "Spiel vorbei" },
+		FR: { win: "VICTOIRE!", start: "Lancement", sel: "Sélectionnez un emplacement", over: "Fin de partie" }
+    };
+
+    function generate() {
+        const ln = document.getElementById('lang').value;
+        const target = document.getElementById('win-score').value;
+        const keys = Array.from(document.querySelectorAll('#loc-select input:checked')).map(i => i.value);
+        const qLines = document.getElementById('q-input').value.split('\n').filter(l => l.includes('|'));
+        const questions = qLines.map(line => {
+            const p = line.split('|').map(s => s.trim());
+            return { q: p[0], c: p[1], a: p.slice(1) };
+        });
+
+        const activeThemes = {};
+        keys.forEach(k => { activeThemes[k] = {...ASSETS[k], label: ASSETS[k].n[ln]}; });
+
+        const finalCode = `
+<div id="g-w" style="width:100%;height:680px;position:relative;overflow:hidden;font-family:sans-serif;background:transparent;user-select:none;touch-action:none;border-radius:15px;">
+    <div id="s-s" style="position:absolute;inset:0;background:transparent;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;">
+        <h1 style="color:#2d3436;margin-bottom:30px;">${UI[ln].sel}</h1>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;">
+            ${keys.map(k => `<button onclick="initGame('${k}')" style="padding:15px 25px;border-radius:15px;border:none;cursor:pointer;font-weight:bold;background:#6c5ce7;color:white;">${ASSETS[k].n[ln]} ${ASSETS[k].p}</button>`).join('')}
+        </div>
+    </div>
+    <div id="w-s" style="display:none;position:absolute;inset:0;background:transparent;z-index:200;flex-direction:column;align-items:center;justify-content:center;">
+        <h1 style="font-size:100px;margin:0;">🌟</h1><h2 style="color:#6c5ce7;font-size:42px;">${UI[ln].win}</h2>
+        <button onclick="restartGame()" style="padding:15px 25px;border-radius:15px;border:none;background:#6c5ce7;color:white;font-weight:bold;cursor:pointer;">${ln==='RU'?'ЗАНОВО':'RESTART'}</button>
+    </div>
+    <div id="g-o" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,0.7);z-index:250;flex-direction:column;align-items:center;justify-content:center;">
+    <h1 style="font-size:80px;margin:0;">💀</h1>
+    <h2 style="color:white;font-size:42px;">${UI[ln].over}</h2>
+
+    <button onclick="restartGame()" style="
+        padding:15px 25px;
+        border-radius:15px;
+        border:none;
+        background:#6c5ce7;
+        color:white;
+        font-weight:bold;
+        cursor:pointer;
+        margin-top:20px;
+    ">
+        ${ln==='RU'?'Играть снова':'Restart'}
+    </button>
+</div>
+	<div id="hud" style="position:absolute;top:20px;left:20px;z-index:50;background:rgba(255,255,255,0.85);padding:10px 20px;border-radius:50px;display:flex;gap:30px;align-items:center;box-shadow:0 4px 15px rgba(0,0,0,0.1);">
+        <div id="l-u" style="font-size:24px;"></div><div id="s-u" style="font-size:20px;font-weight:800;color:#6c5ce7;">0 / ${target}</div>
+    </div>
+    <div id="p-e" style="position:absolute;bottom:40px;left:50%;font-size:80px;transform:translateX(-50%);z-index:10;pointer-events:none;"></div>
+    <div id="q-m" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,0.4);backdrop-filter:blur(12px);z-index:300;align-items:center;justify-content:center;">
+        <div style="background:white;padding:30px;border-radius:30px;width:85%;max-width:550px;text-align:center;box-shadow:0 25px 50px rgba(0,0,0,0.3);">
+            <h2 id="q-t" style="color:#2d3436;font-size:24px;margin-bottom:20px;"></h2><div id="a-g" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function(){
+    let s=0, l=3, cur=0, th=null, paused=true, qs=${JSON.stringify(questions)};
+    const gW=document.getElementById('g-w'), pE=document.getElementById('p-e'), qM=document.getElementById('q-m'), lU=document.getElementById('l-u'), sU=document.getElementById('s-u'), ths=${JSON.stringify(activeThemes)};
+    
+    window.initGame = (k) => {
+        th=ths[k]; document.getElementById('s-s').style.display='none';
+        gW.style.background="url("+th.bg+") center/cover"; pE.innerText=th.p;
+        paused=false; up(); loop();
+    };
+    gW.onmousemove=(e)=>{ if(!paused) pE.style.left=(e.clientX-gW.getBoundingClientRect().left)+'px'; };
+    
+    function spawn(bad){
+        if(paused) return;
+        const el=document.createElement('div'); el.innerText=bad?th.minus:th.plus;
+        el.style.cssText="position:absolute;font-size:60px;z-index:5;top:-80px;left:"+(Math.random()*85+5)+"%";
+        gW.appendChild(el); let y=-80;
+        const t=setInterval(()=>{
+            if(paused) return; // This adds 1 extra speed point for every 100 points of score
+let speedBoost = Math.floor(s / 100); 
+y += (6 + speedBoost); el.style.top=y+'px';
+            const pR=pE.getBoundingClientRect(), iR=el.getBoundingClientRect();
+            if(!(iR.right<pR.left || iR.left>pR.right || iR.bottom<pR.top || iR.top>pR.bottom)){
+                clearInterval(t); el.remove();
+                if(bad) ask(); else { s+=25; up(); if(s>=${target}) { paused=true; document.getElementById('w-s').style.display='flex'; } }
+            }
+            if(y>680){ clearInterval(t); el.remove(); }
+        },20);
+    }
+    function ask(){
+        paused=true; const d=qs[cur%qs.length]; document.getElementById('q-t').innerText=d.q;
+        const g=document.getElementById('a-g'); g.innerHTML=''; qM.style.display='flex';
+        d.a.sort(()=>Math.random()-0.5).forEach(a=>{
+            const b=document.createElement('button'); b.innerText=a; b.style.cssText="padding:15px;border:2px solid #dfe6e9;border-radius:15px;cursor:pointer;font-weight:600;background:#f9f9f9;font-size:16px;";
+            b.onclick=()=>{
+                if(a===d.c){ b.style.background='#55efc4'; setTimeout(()=>{qM.style.display='none';paused=false;cur++;},800); }
+                else { b.style.background='#ff7675'; b.style.color='white'; l--; up(); if(l<=0){ paused=true; document.getElementById('g-o').style.display='flex';} else { qM.style.display='none'; paused=false; cur++; } }
+            };
+            g.appendChild(b);
+        });
+    }
+    function up(){ lU.innerText=th.life.repeat(l); sU.innerText=s+" / ${target}"; }
+    function loop(){ if(!paused){ spawn(0); if(Math.random()>0.4) spawn(1); } setTimeout(loop,1100); }
+window.restartGame = () => {
+
+    // сброс параметров
+    s = 0;
+    l = 3;
+    cur = 0;
+
+    // скрываем экраны
+    document.getElementById('w-s').style.display = 'none';
+    document.getElementById('g-o').style.display = 'none';
+    qM.style.display = 'none';
+
+    // очищаем падающие объекты
+    document.querySelectorAll('#g-w > div').forEach(el => {
+
+        if(
+            el !== document.getElementById('s-s') &&
+            el !== document.getElementById('w-s') &&
+            el !== document.getElementById('g-o') &&
+            el !== document.getElementById('hud') &&
+            el !== document.getElementById('p-e') &&
+            el !== document.getElementById('q-m')
+        ){
+            el.remove();
+        }
+    });
+
+    paused = false;
+
+    up();
+};
+})();
+<\/script>`;
+
+        document.getElementById('preview-frame').srcdoc = finalCode;
+        document.getElementById('genially-code').innerText = finalCode;
+    }
+
+    function copy() {
+        const txt = document.getElementById('genially-code').innerText;
+        navigator.clipboard.writeText(txt);
+        alert("Copied! Paste into Genially (Insert -> Others).");
+    }
+
+    window.onload = generate;
+</script>
+<script>
+// Защита от правого клика внутри iframe
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    return false;
+});
+
+// Блокировка горячих клавиш
+document.addEventListener('keydown', function(e) {
+    if(e.key === 'F12' || 
+       (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) ||
+       (e.ctrlKey && e.key === 'u')) {
+        e.preventDefault();
+        return false;
+    }
+});
+</script></body>
+</html>
