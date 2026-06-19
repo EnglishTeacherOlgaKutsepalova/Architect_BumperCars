@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Конструктор игры "Квиз: Поймай предметы", автор Ольга Куцепалова</title>
+    <title>Конструктор игры "Квиз: Ловим предметы", автор @olgakutsepalova_elt vk.com/englishlanguagefitness</title>
     <style>
         :root { --primary: #00d2ff; --bg: #1a202c; --accent: #00b894; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 20px; display: flex; justify-content: center; }
@@ -25,7 +25,7 @@
 
 <div class="builder-container">
     <div class="config-panel">
-        <h2>🛠️ Конструктор игры "Квиз: Поймай предметы", автор Ольга Куцепалова</h2>
+        <h2>🛠️ Конструктор игры "Квиз: Ловим предметы", автор @olgakutsepalova_elt vk.com/englishlanguagefitness</h2>
         
         <div class="input-group">
             <label>1. Локации (1-4):</label>
@@ -40,7 +40,7 @@
         <div class="input-group">
             <label>2. Язык & Счёт:</label>
             <div style="display:flex; gap:10px;">
-                <select id="lang"><option value="RU">RU</option><option value="EN">EN</option><option value="DE">DE</option><option value="FR">FR</option></select>
+                <select id="lang"><option value="RU">RU</option><option value="EN">EN</option><option value="DE">DE</option><option value="FR">FR</option><option value="JA">JA (日本語)</option><option value="ZH">ZH (中文)</option><option value="KO">KO (한국어)</option></select>
                 <input type="number" id="win-score" value="500" step="50">
             </div>
         </div>
@@ -100,17 +100,20 @@
 
 <script>
     const ASSETS = {
-        ocean: { n:{RU:'Котик',EN:'Cat',DE: 'Katze',FR: 'Chat'}, p:'🐱', plus:'🐟', minus:'🌶️', life:'💙', bg:'https://img.genially.com/656427f3b4e82f0019d59fb5/867182a0-6455-4baa-ba18-637f93c92003.png' },
-        garden: { n:{RU:'Арктика',EN:'Arctic',DE: 'Arktis',FR: 'Arctique'}, p:'❄️', plus:'🔋', minus:'🦠️', life:'💛', bg:'https://img.genially.com/656427f3b4e82f0019d59fb5/b2039953-eb1a-409c-973b-e5067a117cff.png' },
-        desert: { n:{RU:'Город',EN:'Town',DE: 'Stadt',FR: 'Ville'}, p:'♻️', plus:'🌳', minus:'🚬', life:'🧡', bg:'https://img.genially.com/656427f3b4e82f0019d59fb5/72ee6fa2-f763-4694-b76c-9d89c563da1c.png' },
-        space: { n:{RU:'Машинки',EN:'Cars',DE: 'Autos',FR: 'Voitures'}, p:'🚗', plus:'🍬', minus:'💥️', life:'💜', bg:'https://img.genially.com/656427f3b4e82f0019d59fb5/272974fd-35cc-4a9b-9c67-cfc730b3aa6d.png' }
+        ocean: { n:{RU:'Котик',EN:'Cat',DE: 'Katze',FR: 'Chat',JA:'子猫',ZH:'小猫',KO:'고양이'}, p:'🐱', plus:'🐟', minus:'🌶️', life:'💙', bg:'https://img.genially.com/656427f3b4e82f0019d59fb5/867182a0-6455-4baa-ba18-637f93c92003.png' },
+        garden: { n:{RU:'Арктика',EN:'Arctic',DE: 'Arktis',FR: 'Arctique',JA:'北極',ZH:'北极',KO:'북극'}, p:'❄️', plus:'🔋', minus:'🦠️', life:'💛', bg:'https://img.genially.com/656427f3b4e82f0019d59fb5/b2039953-eb1a-409c-973b-e5067a117cff.png' },
+        desert: { n:{RU:'Город',EN:'Town',DE: 'Stadt',FR: 'Ville',JA:'街',ZH:'城市',KO:'도시'}, p:'♻️', plus:'🌳', minus:'🚬', life:'🧡', bg:'https://img.genially.com/656427f3b4e82f0019d59fb5/72ee6fa2-f763-4694-b76c-9d89c563da1c.png' },
+        space: { n:{RU:'Машинки',EN:'Cars',DE: 'Autos',FR: 'Voitures',JA:'車',ZH:'汽车',KO:'자동차'}, p:'🚗', plus:'🍬', minus:'💥️', life:'💜', bg:'https://img.genially.com/656427f3b4e82f0019d59fb5/272974fd-35cc-4a9b-9c67-cfc730b3aa6d.png' }
     };
 
     const UI = {
-        RU: { win: "ПОБЕДА!", start: "Начать", sel: "Выберите локацию", over: "Конец игры" },
-        EN: { win: "VICTORY!", start: "Start", sel: "Choose Location", over: "Game Over" },
-		DE: { win: "SIEG!", start: "Start", sel: "Ort wählen", over: "Spiel vorbei" },
-		FR: { win: "VICTOIRE!", start: "Lancement", sel: "Sélectionnez un emplacement", over: "Fin de partie" }
+        RU: { win: "ПОБЕДА!", start: "Начать", sel: "Выберите локацию", over: "Конец игры", restart: "Играть снова" },
+        EN: { win: "VICTORY!", start: "Start", sel: "Choose Location", over: "Game Over" , restart: "Restart"},
+		DE: { win: "SIEG!", start: "Start", sel: "Ort wählen", over: "Spiel vorbei" , restart: "Neustart"},
+		FR: { win: "VICTOIRE!", start: "Lancement", sel: "Sélectionnez un emplacement", over: "Fin de partie" , restart: "Recommencer"},
+		JA: { win: "勝利！", start: "スタート", sel: "ステージを選択してください", over: "ゲームオーバー", restart: "もう一度プレイ" },
+        ZH: { win: "胜利！", start: "开始", sel: "请选择地点", over: "游戏结束", restart: "重新开始" },
+        KO: { win: "승리!", start: "시작", sel: "장소를 선택하세요", over: "게임 오버", restart: "다시 시작" }
     };
 
     function generate() {
